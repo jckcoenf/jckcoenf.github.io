@@ -7,20 +7,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Hello World - jckcoenf&#39;s blog</title>
+<title>Hello World</title>
 
 
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="Welcome to Hexo!">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hello World">
 <meta property="og:url" content="http://yoursite.com/2020/01/05/hello-world/index.html">
-<meta property="og:site_name" content="jckcoenf&#39;s blog">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:site_name">
+<meta property="og:description" content="Welcome to Hexo!">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
 <meta property="article:published_time" content="2020-01-05T11:45:13.623Z">
-<meta property="article:modified_time" content="2020-01-05T11:45:13.623Z">
-<meta property="article:author" content="jckcoenf">
+<meta property="article:modified_time" content="2020-01-06T06:39:42.886Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -98,6 +97,9 @@
                 href="/tags">标签</a>
                 
                 <a class="navbar-item"
+                href="/archives">归档</a>
+                
+                <a class="navbar-item"
                 href="/about">关于</a>
                 
             </div>
@@ -139,7 +141,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 分钟 读完 (大约 123 个字)
+                    1 分钟 读完 (大约 130 个字)
                 </span>
                 
                 
@@ -152,7 +154,10 @@
             
         </h1>
         <div class="content">
-            <p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+            <p>Welcome to <a href="https://hexo.io/">Hexo</a>!</p>
+<a id="more"></a>
+
+<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
@@ -174,40 +179,6 @@
 </div>
 
 
-
-<div class="card">
-    <div class="card-content">
-        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
-        <div class="buttons is-centered">
-            
-                
-<div class="notification is-danger">
-    You forgot to set the <code>qrcode</code> for Alipay. Please set it in <code>_config.yml</code>.
-</div>
-
-                
-                
-<div class="notification is-danger">
-    You forgot to set the <code>qrcode</code> for Wechat. Please set it in <code>_config.yml</code>.
-</div>
-
-                
-                <!-- Visit https://www.paypal.com/donate/buttons/ to get your donate button -->
-
-<div class="notification is-danger">
-    You forgot to set the <code>business</code> and <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.
-</div>
-
-                
-                
-<div class="notification is-danger">
-    You forgot to set the <code>url</code> Patreon. Please set it in <code>_config.yml</code>.
-</div>
-
-                
-        </div>
-    </div>
-</div>
 
 
 
@@ -231,20 +202,18 @@
     <div class="card-content">
         <h3 class="title is-5 has-text-weight-normal">评论</h3>
         
-<div id="comment-container"></div>
-<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
 <script>
-	var gitment = new Gitment({
-		id: '78e8134c5e81cdb3c3c1b16ce6b8ea4e',
-		owner: 'jckcoenf',
-		repo: 'jckcoenf.github.io',
-		oauth: {
-			client_id: '55f9fe51a182447fb513',
-			client_secret: '0c63dd5b77513d2a548053d76e76be7b56ea51f5',
-		},
-	})
-	gitment.render('comment-container')
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: 'nQ7Hv1DkwMTFL8o3Pa8t7oqW-gzGzoHsz',
+        app_key: 'WYfnbgKAIjdHztIi93RYV267',
+        placeholder: 'Say something...'
+    });
 </script>
 
     </div>
@@ -278,6 +247,11 @@
                     </p>
                     
                     
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>广东.中国</span>
+                    </p>
+                    
                 </div>
             </div>
         </nav>
@@ -289,7 +263,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            4
+                            5
                         </p>
                     </a>
                 </div>
@@ -301,7 +275,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            0
+                            1
                         </p>
                     </a>
                 </div>
@@ -313,7 +287,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            0
+                            1
                         </p>
                     </a>
                 </div>
@@ -384,6 +358,17 @@
                 </a>
             </li>
         
+            <li>
+                <a class="level is-mobile" href="https://www.cnblogs.com/zhlabcd" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">博客园</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.cnblogs.com</span>
+                    </span>
+                </a>
+            </li>
+        
         </ul>
         </div>
     </div>
@@ -398,13 +383,28 @@
                 分类
             </h3>
             <ul class="menu-list">
-            
+            <li>
+        <a class="level is-marginless" href="/categories/coding/">
+            <span class="level-start">
+                <span class="level-item">coding</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
             </ul>
         </div>
     </div>
 </div>
     
-        
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/hello/" style="font-size: 10px;">hello</a>
+    </div>
+</div>
     
     
         <div class="column-right-shadow is-hidden-widescreen ">
@@ -417,6 +417,25 @@
         
         <article class="media">
             
+            <a href="/2020/01/06/xin/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="xin">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-06T05:41:52.000Z">2020-01-06</time></div>
+                    <a href="/2020/01/06/xin/" class="title has-link-black-ter is-size-6 has-text-weight-normal">xin</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/01/05/%E7%9C%9F%E7%9A%84%E5%90%97/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="真的吗">
@@ -425,7 +444,7 @@
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-05T15:47:44.000Z">2020-01-05</time></div>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-05T15:47:44.850Z">2020-01-05</time></div>
                     <a href="/2020/01/05/%E7%9C%9F%E7%9A%84%E5%90%97/" class="title has-link-black-ter is-size-6 has-text-weight-normal">真的吗</a>
                     <p class="is-size-7 is-uppercase">
                         
@@ -457,7 +476,7 @@
             
             <a href="/2020/01/05/test-my-site/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="test_my_site">
+                    <img class="thumbnail" src="https://i1.fuimg.com/707388/3e41c196a52f0fa2.jpg" alt="test_my_site">
                 </p>
             </a>
             
@@ -466,7 +485,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-05T11:54:47.000Z">2020-01-05</time></div>
                     <a href="/2020/01/05/test-my-site/" class="title has-link-black-ter is-size-6 has-text-weight-normal">test_my_site</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/coding/">coding</a>
                     </p>
                 </div>
             </div>
@@ -508,7 +527,7 @@
                     <span class="level-item">一月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -525,6 +544,13 @@
                 标签
             </h3>
             <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/hello/">
+                        <span class="tag">hello</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
                 
             </div>
         </div>
@@ -550,6 +576,25 @@
         
         <article class="media">
             
+            <a href="/2020/01/06/xin/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="xin">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-06T05:41:52.000Z">2020-01-06</time></div>
+                    <a href="/2020/01/06/xin/" class="title has-link-black-ter is-size-6 has-text-weight-normal">xin</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/01/05/%E7%9C%9F%E7%9A%84%E5%90%97/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="真的吗">
@@ -558,7 +603,7 @@
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-05T15:47:44.000Z">2020-01-05</time></div>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-05T15:47:44.850Z">2020-01-05</time></div>
                     <a href="/2020/01/05/%E7%9C%9F%E7%9A%84%E5%90%97/" class="title has-link-black-ter is-size-6 has-text-weight-normal">真的吗</a>
                     <p class="is-size-7 is-uppercase">
                         
@@ -590,7 +635,7 @@
             
             <a href="/2020/01/05/test-my-site/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="test_my_site">
+                    <img class="thumbnail" src="https://i1.fuimg.com/707388/3e41c196a52f0fa2.jpg" alt="test_my_site">
                 </p>
             </a>
             
@@ -599,7 +644,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-05T11:54:47.000Z">2020-01-05</time></div>
                     <a href="/2020/01/05/test-my-site/" class="title has-link-black-ter is-size-6 has-text-weight-normal">test_my_site</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/coding/">coding</a>
                     </p>
                 </div>
             </div>
@@ -641,7 +686,7 @@
                     <span class="level-item">一月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -658,6 +703,13 @@
                 标签
             </h3>
             <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/hello/">
+                        <span class="tag">hello</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
                 
             </div>
         </div>
@@ -680,7 +732,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2020 jckcoenf&nbsp;
+                &copy; 2020 Hello World&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -850,5 +902,5 @@ document.addEventListener('DOMContentLoaded', function () {
 <link rel="stylesheet" href="/css/search.css">
 <link rel="stylesheet" href="/css/insight.css">
     
-</body>
+<script src="/node_modules/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"node_modules/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/node_modules/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
 </html>
