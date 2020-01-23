@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i2.tiimg.com/707388/6fbaba37f2701911.jpg">
 <meta property="article:published_time" content="2020-01-22T12:11:38.000Z">
-<meta property="article:modified_time" content="2020-01-22T17:05:39.540Z">
+<meta property="article:modified_time" content="2020-01-23T08:37:43.557Z">
 <meta property="article:tag" content="拓展知识">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i2.tiimg.com/707388/6fbaba37f2701911.jpg">
@@ -171,12 +171,16 @@
 
 <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>其实学习图形学以来，我都对图形的生成有一些疑惑，那就是：显示器究竟是怎么将结果显示出来的，它究竟是如何知道我们想要表达出来的颜色并将其表示出来，下面会阐述其原理。</p>
 <h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><p>首先我们要知道人眼是如何辨别颜色的：</p>
+<div align = center>
+
 <p><img src="https://pic1.zhimg.com/80/v2-c50040c45764d1d71e4a912d21606e7e_hd.jpg" alt="图片来源：知乎（见水印）"></p>
 <p>光线通过眼睛之后投射到视网膜上，感光细胞（rod&amp;cone）把光信号转化成电信号，再由视神经传导至视觉中枢进行进一步处理，最后形成视觉。</p>
 <p>而视锥细胞（cone）有三种，分别是S-视锥细胞，M-视锥细胞和L-视锥细胞，这也就是三基色（RGB）的由来。</p>
 <p>具体的讲解参照：<a href="https://www.zhihu.com/question/323322806/answer/678653634"><strong>视锥细胞</strong>是如何辨别感知颜色的-Llenlleawg的回答</a></p>
 <p>我这里就不展开讲了,毕竟我的知识来源也是这些回答，视频，以及其他一些相关文献，而他们也都写得很好，专业素养很高。</p>
 <h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>说完了颜色是如何传入人眼的，接下来就讲显示器的构造原理。</p>
+<div align = center>
+
 <p><img src="https://i1.fuimg.com/707388/296911ce0259cfb5.png" alt="LCD屏幕的内部组成"></p>
 <p>如上（图片来源见水印）。上述各个部件的作用我这里不再赘述，直接参考这个作者的文章：<a href="https://www.kenzhishi.com/1694.html">LCD的工作原理是怎样的</a>即可。</p>
 <p>总的来说。当我们点亮屏幕的时候：</p>
@@ -192,8 +196,11 @@
 <p>以上就是LCD屏幕的显示过程，核心要点便是TFT通过电压来操控液晶分子，以此达到控制子像素亮度的目的。</p>
 <p>知道显示器的原理之后就很简单了，我们只需要将特定的电压信号输入给显示器，就可以显示出特定的颜色，做出酷炫的动画效果。</p>
 <p>至于这电压信号是怎么来的，就涉及到了<strong>数模转换</strong>。简单地说就是CPU把图像数据送往GPU，GPU处理完数据（软渲染，数模转换）之后再将这模拟信号送到显示屏（具体CPU是怎么获取图像数据的，GPU怎么处理数据的这里并不展开讲，不是本篇的重点）。</p>
-<h5 id="小小的PS"><a href="#小小的PS" class="headerlink" title="小小的PS"></a>小小的PS</h5><ol>
+<hr>
+<h4 id="小小的PS"><a href="#小小的PS" class="headerlink" title="小小的PS"></a>小小的PS</h4><ol>
 <li><p>我们屏幕上的一个像素点是由三个子像素（对应三个滤光片）组成的。由于一个像素极其小，三个滤光片距离极其近，以至于透过它们的光进入人眼后，人眼分不清这是3束光，即光在人眼中发生<strong>混色作用</strong>，于是一个像素便有了颜色（具体参照：<a href="https://zhuanlan.zhihu.com/p/32136704">数据的流动：计算机是如何显示一个像素的</a>）。</p>
+<div align = center>
+
 <p><img src="https://i1.fuimg.com/707388/ca9ca039eceb533a.png" alt="一个像素点由三个子像素组成"></p>
 </li>
 <li><p>现在市场上的OLED屏幕不是依靠背光的，它的红绿蓝子像素是可以自行发光的，像小灯泡那样（也由此可能会引发一些所谓的“烧屏”现象，因为它自行发光的子像素的寿命不一致）。</p>
