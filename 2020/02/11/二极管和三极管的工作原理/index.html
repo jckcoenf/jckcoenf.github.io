@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>二极管和三极管的工作原理</title>
+
+
+    <meta name="description" content="不务正业系列（二）。  提示:了解这些知识并不会对编程能力造成什么实质性的影响，充其量只是为了满足自己的求知欲：每天同电脑打交道，连计算机的元器件原理都不知道的话会感觉怪怪的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二极管和三极管的工作原理">
+<meta property="og:url" content="http://yoursite.com/2020/02/11/%E4%BA%8C%E6%9E%81%E7%AE%A1%E5%92%8C%E4%B8%89%E6%9E%81%E7%AE%A1%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="不务正业系列（二）。  提示:了解这些知识并不会对编程能力造成什么实质性的影响，充其量只是为了满足自己的求知欲：每天同电脑打交道，连计算机的元器件原理都不知道的话会感觉怪怪的。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jckcoenf.oss-cn-beijing.aliyuncs.com/5.jpeg">
+<meta property="article:published_time" content="2020-02-10T16:07:17.000Z">
+<meta property="article:modified_time" content="2020-02-11T17:01:30.654Z">
+<meta property="article:tag" content="拓展知识">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jckcoenf.oss-cn-beijing.aliyuncs.com/5.jpeg">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="二极管和三极管的工作原理" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">主页</a>
+                
+                <a class="navbar-item"
+                href="/categories">分类</a>
+                
+                <a class="navbar-item"
+                href="/tags">标签</a>
+                
+                <a class="navbar-item"
+                href="/archives">归档</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/jckcoenf/jckcoenf.github.io">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/5.jpeg" alt="二极管和三极管的工作原理">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-02-10T16:07:17.000Z">2020-02-11</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E6%8B%93%E5%B1%95%E7%9F%A5%E8%AF%86/">拓展知识</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    22 分钟 读完 (大约 3232 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                二极管和三极管的工作原理
+            
+        </h1>
+        <div class="content">
+            <p>不务正业系列（二）。</p>
+<table><tr><td bgcolor = lightblue> <strong>提示</strong>:了解这些知识并不会对编程能力造成什么实质性的影响，充其量只是为了满足自己的求知欲：每天同电脑打交道，连计算机的元器件原理都不知道的话会感觉怪怪的。
+    </td>
+    </tr>
+</table>
+
+<a id="more"></a>
+
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>由于外面疫情较严重，呆在家里好些天了，百无聊赖之际翻起了书，看到有关于门电路的知识，突然想起了以前的一个疑问：门电路的内部电路是怎么样的？它所需要的元器件是什么？</p>
+<p>抱着这样的疑问，我找了很多的参考资料，最终明白了“与或非”门电路的内部组成。</p>
+<p>下面我试着从门电路中最基础的东西：二极管和三极管（晶体管）说起。</p>
+<h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><ol>
+<li><strong>半导体</strong>，有<em>本征半导体</em>，<em>N（negative)型半导体</em>， 以及<em>P(positive)型半导体</em>。（注意将半导体和二极管区分开。半导体的名字由来是因为它的导电能力介于绝缘体和导体之间，而二极管是由N型半导体以及P型半导体构成的）。</li>
+<li><strong>载流子</strong>。在半导体中，载流子有两种，一种称之为<strong>空穴</strong>， 另外一种为<strong>自由电子</strong>。自由电子不必多说；空穴是什么呢？在固体物理学中，如果共价键上流失一个电子，最后在共价键上留下空位的现象称之为空穴（例子如下）,它呈现正电性：</li>
+</ol>
+<p><img src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/%E7%A9%BA%E7%A9%B4%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="P型半导体的空穴示意图"></p>
+<p>相反的，N型半导体多出一个自由电子，它呈现负电性。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h4 id="二极管"><a href="#二极管" class="headerlink" title="二极管"></a><strong>二极管</strong></h4><p>二极管由一个N型半导体和一个P型半导体组成，如下</p>
+<p><img src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/%E4%BA%8C%E6%9E%81%E7%AE%A1%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg" alt="二极管示意图（图片来源于知乎用户@Catpub)"></p>
+<p>自然而然，由于存在空穴浓度差（也可以说是电子浓度差），因此在交界面，P型半导体和N型半导体会产生扩散运动，P区中的空穴向N区运动（我们习惯性地说空穴运动，但是实际上空穴只是个概念性质的东西，它是对电子运动的一种等效，其实就是大量电子运动的等效反方向运动。因此我们也可以把这个说法换成：<strong>N区的电子向P区移动</strong>）。</p>
+<p>N区的电子向P区扩散之后（也即P区的空穴向N区扩散之后），N区原本的<strong>氮组元素</strong>失去了一个电子而呈现正电性，P区的<strong>硼组元素</strong>得到了一个电子而呈现正电性，于是不能移动的氮组元素和硼组元素之间就会产生一个内电场（如下）：</p>
+<p><img src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/%E4%BA%8C%E6%9E%81%E7%AE%A1%E5%86%85%E7%94%B5%E5%9C%BA.jpg" alt="二极管内电场"></p>
+<p>这个内电场会阻碍空穴（电子）的扩散，使其达到平衡，并在交接处形成一定厚度的区域，这个区域我们称之为<strong>PN结</strong>，也叫<strong>耗尽区</strong>。</p>
+<p>接下来的就很简单了，如果我们加上正向电压（P接+ N接-），那么这个内电场就会被削弱（耗尽区也会变窄，原因查看这里：<a href="https://zhidao.baidu.com/question/290039536.html?qbl=relate_question_0">PN结正向偏置的时候为啥空间电荷区（耗尽区）会变窄-汤乐天的回答</a>），从而导通；如果加上反向电压（P接- N接+）那么内电场会被进一步加强（耗尽区变宽），从而截止。</p>
+<p><img src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/%E4%BA%8C%E6%9E%81%E7%AE%A1%E6%AD%A3%E5%90%91%E5%81%8F%E7%BD%AE.jpg" alt="二极管正向偏置"></p>
+<p><img src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/%E4%BA%8C%E6%9E%81%E7%AE%A1%E5%8F%8D%E5%90%91%E5%81%8F%E7%BD%AE.jpg" alt="二极管反向偏置"></p>
+<h4 id="三极管（NPN为例）"><a href="#三极管（NPN为例）" class="headerlink" title="三极管（NPN为例）"></a><strong>三极管</strong>（NPN为例）</h4><p>知道了二极管的原理，那么三极管的原理（也称为<strong>晶体管</strong>）就很简单了。然而按照原理顺序照本宣科未免也太无趣，这里我尝试着“反着”说回来（这里的“反”其实指的是与国内的教材相反，国内教材总喜欢上来就一堆公式，一堆示意图，学完之后难免一脸懵逼）。</p>
+<ol>
+<li><p><strong>三极管的作用是什么</strong>？</p>
+<p>如果你尝试着直接Google或者看书，它们都会告诉你三极管的作用是<strong>放大电流</strong>。放大电流？听起来似乎不错，但你要知道万物都遵循<strong>能量守恒</strong>：能量既不会凭空消失也不会凭空产生；同样，这里的放大电流不是真的说无缘无故将电流放大——实际上，三极管的作用是<strong>调节电流</strong>。举个例子，三极管的原理类似于水龙头，阀门相当于三极管的<em>Base</em>端，水龙头出水的部分相当于<em>Emitter</em>端，水管相当于<em>Collecter</em>端，你总不能说水龙头的作用是放大水流吧，（阀门）调节水流才是正解。</p>
+<p>在外语文献中，放大这个词是带有双引号的，从侧面说明它不是真正的放大作用。而国内引入的时候可能把它给漏了，也就沿用至今了。</p>
+</li>
+<li><p><strong>为什么要有三极管</strong>？</p>
+<p>上面有说到水龙头的例子，三极管大致就是这样起作用的。那么三极管的存在意义也就很明显了，当我们需要同一个东西完成多项任务（在三极管这里是调节电流）的时候，三极管就显得很有必要。</p>
+</li>
+<li><p><strong>三极管的具体原理</strong>？</p>
+<p>经过了前面的铺垫，这里就可以开始讲三极管的工作原理了，但我并不打算过分深入地去探究这个东西（毕竟不是电子专业的），浅浅地解析一下便可。如果要深入，可以去读模电，以及固体物理。在后面的参考资料部分也会列出一部分相关参考资料链接。</p>
+<hr>
+<p>以<strong>NPN三极管</strong>为例，如图</p>
+<p><img src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/%E4%B8%89%E6%9E%81%E7%AE%A1%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg" alt="三极管示意图"></p>
+</li>
+</ol>
+<h5 id="在未接入电路前："><a href="#在未接入电路前：" class="headerlink" title="在未接入电路前："></a>在未接入电路前：</h5><p>   从上面的二极管知识我们可以知道，一个NPN三极管拥有两个PN结（当然上图没画出来）</p>
+<h5 id="现在接入电路中："><a href="#现在接入电路中：" class="headerlink" title="现在接入电路中："></a>现在接入电路中：</h5><p>   在集电极C端和基极B端分别加上电源电源正极（即发射极正向偏置，集电极反向偏置），那么我们可以知道电子的走向，如下：</p>
+<p>   <img src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/%E6%8E%A5%E5%85%A5%E7%94%B5%E6%BA%90%E5%90%8E%E4%B8%89%E6%9E%81%E7%AE%A1%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg" alt="接入电源后的三极管示意图"></p>
+<ol>
+<li><p><strong>从电子的角度来看</strong>：靠近发射极E的N端（N发射区）（上图右边黄色区域）中的电子，由于它靠近电源负极，同性相斥，故而被排斥到中间的P基区，到达P基区后，其中少量一部分电子和P基区内的空穴中和（再之后这部分电子慢慢移动到基极B，形成回路）。到达中间的P基区后，由于从发射区N出来的电子较多，未被P基区完全中和；因此剩下的部分在电场的作用下继续向靠近集电极C的N端（N集电区）（上图左边橙色区域），并从集电极C端出来。</p>
+</li>
+<li><p><strong>从空穴的角度来看</strong>：与之相反啦（doge），懒得再写一遍了。不过可以提一下在这之中的一些相关概念。</p>
+<p>​    <strong>开启电压</strong>：刚好让空穴通过耗尽区的电压。</p>
+<p>​    <strong>本征激发</strong>：核外电子通过获得外界能量而可以摆脱原子核对它的束缚，原子核失去了电子就多一个空位，此时整个“原子”对外带正电，相当于空穴，原子所处的空间中也多一个有了能量就happy的电子。这种三极管内的现象叫做本征激发。也就是说，两侧的N极整体带负电，但其中也存在着空穴——正是由于本征激发。    </p>
+<hr>
+<p><strong>说了这么多，基极到底是如何调节电流变化的呢？</strong>为什么基极微小的电流变化，会引起集电极较大的电流变化？</p>
+<p>首先要明确的是NPN三极管中，P区很薄，空穴的浓度很低，所以从发射极E扩散过来的电子只有很少一部分被中和（并在之后在正极的吸引下往基极B跑，形成回路电流），更大的部分都扩散到了集电极（由于反向偏置）。</p>
+<p>当基极电流增大（电压也略微提高）的时候，会引发发射极更多地向基区扩散电子，但仍然由于基区很薄，留下的电子数量很少。多余的电子还是被集电极吸引了。    </p>
+<p>P区尺寸很小且空穴浓度很低、发射极电子浓度很高及集电极尺寸较大这样四个内在因素，加上集电极正电源的吸引力这样一个外部条件，最终使集电极电流是基极电流的很多倍，这就是人们通常所说的电流放大能力。</p>
+<p>值得注意的是，三极管的放大因子（能力）β出厂的时候就做好了。</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们可以将一个较小的信号量接入基极B，然后由于所谓的“放大”（β倍），便可以得到一个大的信号量。</p>
+<p>二极管是三极管的基础，三级管是现代信息社会的基础。</p>
+<h2 id="拓展知识"><a href="#拓展知识" class="headerlink" title="拓展知识"></a>拓展知识</h2><p>另外看二极管的历史时还拓展了一部分的电路小知识，作为拓展，这里再提两句好了。</p>
+<ol>
+<li><p>高压输电线采用的是三相电，所以不需要零线，只要一条火线就够了。具体参考这里：<a href="https://www.zhihu.com/question/40193461/answer/85961396">为什么高压输电线只有火线没有零线？-SamsonHe的回答</a></p>
+</li>
+<li><p>采用交流电是为了更加方便地节省传输过程中的电能损耗。根据$P = I^2 * R$可知，传输电的时候降低电流大小就可以达到降低损耗的目的，而根据$U_1I_1 = U_2I_2$即可知道提升次级线圈的电压就可达到降低电流的目的。即采用升压变压器。</p>
+<p>值得一提的是，直流电其实也可以升压，但是升压的方法较为复杂，而交流电升压降压都比较简单，这是交流电得以流行的一个缘由。</p>
+<p>更加具体的解说可以参考这里：<a href="https://www.zhihu.com/question/63806246/answer/213357399">家用交流电的电流方向是怎样的？-Patrick Zhang的回答</a></p>
+</li>
+</ol>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a href="https://zhuanlan.zhihu.com/p/33226186">如何亲手造一台电脑？（二）晶体管与集成运算器 - Catpub</a> 注：上面的所有配图均来自于本篇文章的作者<a href="https://www.zhihu.com/people/catpub">Catpub的个人主页</a>)。</li>
+<li><a href="https://zhuanlan.zhihu.com/p/74219509">半导体知识工程笔记之二极管类器件 - 每日硬知识</a></li>
+<li><a href="https://www.zhihu.com/question/23894327/answer/168299698">如何形象生动的让初中学生理解三极管的工作状态 - Oxisliant的回答</a></li>
+<li><a href="https://zhidao.baidu.com/question/290039536.html?qbl=relate_question_0">PN结正向偏置的时候为啥空间电荷区（耗尽区）会变窄-汤乐天的回答</a></li>
+<li><a href="https://www.zhihu.com/question/40193461/answer/85961396">为什么高压输电线只有火线没有零线？-SamsonHe的回答</a></li>
+<li><a href="https://www.zhihu.com/question/63806246/answer/213357399">家用交流电的电流方向是怎样的？-Patrick Zhang的回答</a></li>
+<li><a href="https://zhidao.baidu.com/question/582639968.html">三极管放大原理 - 安全护航9的回答</a></li>
+</ol>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/%E6%8B%93%E5%B1%95%E7%9F%A5%E8%AF%86/" rel="tag">拓展知识</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/01/24/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E5%85%89%E6%A0%85%E5%8C%96%E6%B8%B2%E6%9F%93%E5%99%A8%EF%BC%88%E4%B8%80%EF%BC%89/">
+                <span class="level-item">从零开始的光栅化渲染器（一）</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: 'nQ7Hv1DkwMTFL8o3Pa8t7oqW-gzGzoHsz',
+        app_key: 'WYfnbgKAIjdHztIi93RYV267',
+        placeholder: 'Say something...'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="jckcoenf">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        jckcoenf
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        人类的悲欢并不相通
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>广东.中国</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            5
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            3
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            3
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/jckcoenf" target="_blank" rel="noopener">
+                关注我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/jckcoenf">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="二极管和三极管的工作原理" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 二极管和三极管的工作原理&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/jckconef">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://yoursite.com',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":true}});</script></body>
+</html>
