@@ -7,22 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>门电路的具体构成</title>
+<title>拆解问题的能力</title>
 
 
-    <meta name="description" content="不务正业系列（三）  提示：了解这些知识并不会对编程能力造成什么实质性的影响，充其量只是为了满足自己的求知欲：每天同电脑打交道，连计算机的元器件原理都不知道的话会感觉怪怪的。">
+    <meta name="description" content="算是这些天来的一些学习心得吧，当然也想发发牢骚。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="门电路的具体构成">
-<meta property="og:url" content="http://yoursite.com/2020/02/12/%E9%97%A8%E7%94%B5%E8%B7%AF%E7%9A%84%E5%85%B7%E4%BD%93%E6%9E%84%E6%88%90/index.html">
+<meta property="og:title" content="拆解问题的能力">
+<meta property="og:url" content="http://yoursite.com/2020/02/17/%E6%8B%86%E8%A7%A3%E9%97%AE%E9%A2%98%E7%9A%84%E8%83%BD%E5%8A%9B/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="不务正业系列（三）  提示：了解这些知识并不会对编程能力造成什么实质性的影响，充其量只是为了满足自己的求知欲：每天同电脑打交道，连计算机的元器件原理都不知道的话会感觉怪怪的。">
+<meta property="og:description" content="算是这些天来的一些学习心得吧，当然也想发发牢骚。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://jckcoenf.oss-cn-beijing.aliyuncs.com/6.jpg">
-<meta property="article:published_time" content="2020-02-12T04:08:14.000Z">
-<meta property="article:modified_time" content="2020-02-12T13:29:26.470Z">
-<meta property="article:tag" content="拓展知识">
+<meta property="og:image" content="https://jckcoenf.oss-cn-beijing.aliyuncs.com/7.jpg">
+<meta property="article:published_time" content="2020-02-17T15:47:02.000Z">
+<meta property="article:modified_time" content="2020-02-17T16:15:22.381Z">
+<meta property="article:tag" content="生活随笔">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jckcoenf.oss-cn-beijing.aliyuncs.com/6.jpg">
+<meta name="twitter:image" content="https://jckcoenf.oss-cn-beijing.aliyuncs.com/7.jpg">
 
 
 
@@ -80,7 +80,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="门电路的具体构成" height="28">
+                <img src="/images/logo.svg" alt="拆解问题的能力" height="28">
             
             </a>
         </div>
@@ -134,7 +134,7 @@
     
     <div class="card-image">
         <span  class="image is-7by1">
-            <img class="thumbnail" src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/6.jpg" alt="门电路的具体构成">
+            <img class="thumbnail" src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/7.jpg" alt="拆解问题的能力">
         </span>
     </div>
     
@@ -142,17 +142,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-02-12T04:08:14.000Z">2020-02-12</time>
+                <time class="level-item has-text-grey" datetime="2020-02-17T15:47:02.000Z">2020-02-17</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/%E6%8B%93%E5%B1%95%E7%9F%A5%E8%AF%86/">拓展知识</a>
+                <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB%E9%9A%8F%E7%AC%94/">生活随笔</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    8 分钟 读完 (大约 1263 个字)
+                    2 分钟 读完 (大约 365 个字)
                 </span>
                 
                 
@@ -161,50 +161,18 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                门电路的具体构成
+                拆解问题的能力
             
         </h1>
         <div class="content">
-            <p>不务正业系列（三）</p>
-<table><tr><td bgcolor = lightblue> <strong>提示</strong>：了解这些知识并不会对编程能力造成什么实质性的影响，充其量只是为了满足自己的求知欲：每天同电脑打交道，连计算机的元器件原理都不知道的话会感觉怪怪的。
-    </td>
-    </tr>
-</table>
-
+            <p>算是这些天来的一些学习心得吧，<del>当然也想发发牢骚</del>。</p>
 <a id="more"></a>
 
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>接着上一篇博文（二极管和三极管的工作原理），来简单阐述一下与或非门的具体结构。</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>让我们试着回忆一下与或非门的功能：</p>
-<ol>
-<li>与门：全1为1，有0为0。</li>
-<li>或门：有1为1，全0为0。</li>
-<li>非门：有1为0，有0为1。</li>
-</ol>
-<p>看起来的确很简单，难以想象这种东西组成了计算机并且实现了这么复杂的功能。不过我在这里并不打算写计算机那些复杂的功能是怎么实现的，想要了解的话可以去读一读《数字逻辑》。</p>
-<p>那么下面就直接上门电路的示意图了（图片依旧来自于知乎用户 <a href="https://www.zhihu.com/people/catpub">Catpub</a>，感谢一波，我比较懒，就不画了（doge））。</p>
-<h4 id="与门"><a href="#与门" class="headerlink" title="与门"></a>与门</h4><p><img src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/%E4%B8%8E%E9%97%A8%E7%94%B5%E8%B7%AF%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg" alt="与门电路示意图"></p>
-<p>如上是与门电路的示意图，它由两个输入端，两个二极管，一个输出端以及一个固定电源，一个电阻组成。</p>
-<p>当A或者B输入端（或者两个一起）的电压（电信号）都为低电平时（可以假设为0V，但不一定要0V，只要足够低就行），很容易知道二极管正向偏置，处于导通状态（一般二极管的压降约为0.7V），那么输出端F得到的结果也是0.7V。</p>
-<table><tr><td bgcolor = pink>为什么是0.7V？首先两个二极管是并联的，那么加在两个二极管之间的电压应该是相等的，二极管左侧的电压为0，压降为0.7V，容易知道二极管右侧电压为0.7V，而输出端F和二极管右侧可以认为是直接导通的，不存在电压下降，因此输出端F的电压等于二极管右侧电压（电源剩下其他的电压加在电阻两边了）。</td>
-    </tr>
-</table>
-
-<p>只有当A和B端的电压较高的时候（此时二极管反向偏置），二极管处于不导通的状态，此时输出F的电压可视为电源串联电阻之后电阻下侧的电压。</p>
-<h4 id="或门"><a href="#或门" class="headerlink" title="或门"></a>或门</h4><p><img src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/%E6%88%96%E9%97%A8%E7%94%B5%E8%B7%AF%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg" alt="或门电路示意图"></p>
-<p>如上，有两个输入端，两个二极管，一个输出端，一个电阻接地。</p>
-<p>当输入端A和B都为低电平（低电压）（低于0.7V）的时候，因为激发电压的存在，二极管不导通，此时输出端F为0V。</p>
-<p>当输出端中有一个以上端口为高电平（高电压）的时候，二极管导通，输出电压为高电平。</p>
-<h4 id="非门"><a href="#非门" class="headerlink" title="非门"></a>非门</h4><p>非门用的不是二极管，而是三极管。</p>
-<p><img src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/%E9%9D%9E%E9%97%A8%E7%94%B5%E8%B7%AF%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg" alt="非门电路示意图"></p>
-<p>如上，非门电路有一个输入端，一个输出端，两个电阻，一个三极管（E端接地），还有一个电源。</p>
-<p>当输入端A的电压很低的时候，我们知道，三极管的基极电压很低的时候是无法驱动的，也就是处于关闭状态，很明显此时输出端F的电压较高。</p>
-<p>而当输入端A的电压较高的时候，三极管处于导通状态，此时输出端的电压和接地端一样，也就是0V。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上就是与或非门的具体构成，当然我只是简单地阐述了一下，如果想要详细地了解还是得去读《模拟电路》。</p>
-<h2 id="拓展知识"><a href="#拓展知识" class="headerlink" title="拓展知识"></a>拓展知识</h2><p>事实上，一开始的门电路并不是由二极管和三极管组成的，而是采用一个更加常见的东西：继电器，当时哈佛大学与IBM合作制作的Havard Mark I、Mark II计算机就是用继电器实现的。</p>
-<p>我们熟知的第一台通用计算机ENIAC并不是采用继电器来实现门电路，而是用真空管，但真空管也有坏处，例如价格昂贵、耗电高、发热大、寿命短。于是慢慢被二极管和三极管替代。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li><a href="https://zhuanlan.zhihu.com/p/33510171">如何亲手造一台电脑?（三）门电路与数字逻辑 - Catpub</a></li>
-</ol>
+<p>近日来的一些编程工作，让我较为深刻地体会到<strong>拆分问题</strong>是一个很重要的能力。</p>
+<p>当在通过阅读一些他人的源码并加以学习改进的时候，首先便要对源码的大体走向，各部分实现的功能（或者说是写的啥）有一个大概的了解；而不是上来就从头到尾阅读下去，沉沦在技术细节中。</p>
+<p>在大致了解程序之后，接下来便是<strong>拆</strong>，根据功能将源码拆分成很多小部分；然后是学，合理地规划时间，不断地去解决问题（或是技术问题，或是数学知识之类的），钻牛角尖。</p>
+<p>详细学习完了源码之后，还需要翻回来，重新阅读程序源码，这个时候可以带入技术细节去观看。</p>
+<p>对源程序有了足够的了解之后，便可以尝试着自己也造一下轮子了，不求有多么独立创新，但也不能照着全抄。可从代码结构优化，重构的角度出发，去试着优化一下程序源码；更进一步的话可尝试着去添加一些新功能。</p>
 
         </div>
         
@@ -212,7 +180,7 @@
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/%E6%8B%93%E5%B1%95%E7%9F%A5%E8%AF%86/" rel="tag">拓展知识</a>
+                    <a class="has-link-grey -link" href="/tags/%E7%94%9F%E6%B4%BB%E9%9A%8F%E7%AC%94/" rel="tag">生活随笔</a>
                 </div>
             </div>
         </div>
@@ -230,16 +198,16 @@
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/02/17/%E6%8B%86%E8%A7%A3%E9%97%AE%E9%A2%98%E7%9A%84%E8%83%BD%E5%8A%9B/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/02/27/%E5%85%89%E6%A0%85%E5%8C%96%E6%B8%B2%E6%9F%93%E5%99%A8/">
                 <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">拆解问题的能力</span>
+                <span class="level-item">光栅化渲染器</span>
             </a>
         </div>
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/02/11/%E4%BA%8C%E6%9E%81%E7%AE%A1%E5%92%8C%E4%B8%89%E6%9E%81%E7%AE%A1%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">
-                <span class="level-item">二极管和三极管的工作原理</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/02/12/%E9%97%A8%E7%94%B5%E8%B7%AF%E7%9A%84%E5%85%B7%E4%BD%93%E6%9E%84%E6%88%90/">
+                <span class="level-item">门电路的具体构成</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -385,11 +353,11 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="门电路的具体构成" height="28">
+                    <img src="/images/logo.svg" alt="拆解问题的能力" height="28">
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2020 门电路的具体构成&nbsp;
+                &copy; 2020 拆解问题的能力&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 

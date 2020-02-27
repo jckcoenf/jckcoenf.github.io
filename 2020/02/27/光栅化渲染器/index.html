@@ -7,22 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>从零开始的光栅化渲染器（一）</title>
+<title>光栅化渲染器</title>
 
 
-    <meta name="description" content="从零开始的光栅化渲染器（一）：Bresenham’s Line。  提示：考虑到对OpenGL中光栅化细节的不了解，我会从零开始写一个光栅化渲染器，将相关的学习过程记录下来，帮助自己更好地去理解这些细节。本篇博文是此系列的第一篇。">
+    <meta name="description" content="光栅化渲染器的实现。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="从零开始的光栅化渲染器（一）">
-<meta property="og:url" content="http://yoursite.com/2020/01/24/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E5%85%89%E6%A0%85%E5%8C%96%E6%B8%B2%E6%9F%93%E5%99%A8%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:title" content="光栅化渲染器">
+<meta property="og:url" content="http://yoursite.com/2020/02/27/%E5%85%89%E6%A0%85%E5%8C%96%E6%B8%B2%E6%9F%93%E5%99%A8/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="从零开始的光栅化渲染器（一）：Bresenham’s Line。  提示：考虑到对OpenGL中光栅化细节的不了解，我会从零开始写一个光栅化渲染器，将相关的学习过程记录下来，帮助自己更好地去理解这些细节。本篇博文是此系列的第一篇。">
+<meta property="og:description" content="光栅化渲染器的实现。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://jckcoenf.oss-cn-beijing.aliyuncs.com/4.jpg">
-<meta property="article:published_time" content="2020-01-24T09:54:43.000Z">
-<meta property="article:modified_time" content="2020-02-04T11:50:41.059Z">
+<meta property="og:image" content="https://jckcoenf.oss-cn-beijing.aliyuncs.com/8.jpg">
+<meta property="article:published_time" content="2020-02-27T05:14:34.000Z">
+<meta property="article:modified_time" content="2020-02-27T13:28:57.675Z">
 <meta property="article:tag" content="计算机图形学">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jckcoenf.oss-cn-beijing.aliyuncs.com/4.jpg">
+<meta name="twitter:image" content="https://jckcoenf.oss-cn-beijing.aliyuncs.com/8.jpg">
 
 
 
@@ -80,7 +80,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="从零开始的光栅化渲染器（一）" height="28">
+                <img src="/images/logo.svg" alt="光栅化渲染器" height="28">
             
             </a>
         </div>
@@ -134,7 +134,7 @@
     
     <div class="card-image">
         <span  class="image is-7by1">
-            <img class="thumbnail" src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/4.jpg" alt="从零开始的光栅化渲染器（一）">
+            <img class="thumbnail" src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/8.jpg" alt="光栅化渲染器">
         </span>
     </div>
     
@@ -142,7 +142,7 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-01-24T09:54:43.000Z">2020-01-24</time>
+                <time class="level-item has-text-grey" datetime="2020-02-27T05:14:34.000Z">2020-02-27</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/">计算机图形学</a>
@@ -152,7 +152,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    几秒 读完 (大约 106 个字)
+                    14 分钟 读完 (大约 2039 个字)
                 </span>
                 
                 
@@ -161,15 +161,83 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                从零开始的光栅化渲染器（一）
+                光栅化渲染器
             
         </h1>
         <div class="content">
-            <p>从零开始的光栅化渲染器（一）：<strong>Bresenham’s Line</strong>。</p>
-<table><tr><td bgcolor = lightblue> <strong>提示</strong>：考虑到对OpenGL中光栅化细节的不了解，我会从零开始写一个光栅化渲染器，将相关的学习过程记录下来，帮助自己更好地去理解这些细节。本篇博文是此系列的第一篇。</td></tr></table>
+            <p>光栅化渲染器的实现。</p>
 <a id="more"></a>
 
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p><strong>图形渲染管线到底干了什么？</strong>这是任何一个学习图形学的人都无法逃避的问题。</p>
+<p>现代的API（如OpenGL，DirectX等）都将其具体过程封装好了，使用的时候只需传入相应参数，调用函数即可达到渲染的目的。尽管不了解它的原理并不影响使用，但为了编程可持续发展（雾），最好还是自己手动实现一下<strong>光栅化渲染器</strong>。</p>
+<p>以下我简单地阐述图形渲染管线的流程（以OpenGL辅以理解），我会用整体-&gt;细节的结构去阐述这个流程</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="整体"><a href="#整体" class="headerlink" title="整体"></a>整体</h3><p>首先是一张流传甚广的图片：</p>
+<p><img src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/%E7%AE%A1%E7%BA%BF.png" alt="出自Learn OpenGL"></p>
+<p>这是OpenGL的图形渲染管线（蓝色底代表可编程）示意图，从上我们可以知道图形渲染管线的功能是什么：输入顶点数据，输出屏幕上我们看到的东西。</p>
+<p>更加具体一点：输入顶点数据至顶点着色器，接着进行图元装配，（几何着色器可选），然后光栅化（将连续的顶点映射至屏幕，由于屏幕是一个一个的像素（离散的），所以称之为光栅化），接着进行着色，最后进行各种测试和混合（深度测试、模板测试，颜色混合之类的）。</p>
+<p>由此，我们知道了图形渲染管线的大致流程，下面开始深入讲解细节。</p>
+<h3 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h3><p>同样是以一张图开局</p>
+<p><img src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/RTR.png" alt="图片来自RTR 4th"></p>
+<p>我们先抛开OpenGL中的那些人为划定的<em>Shader</em>，直接来看渲染管线干了些什么。</p>
+<p><strong>Application</strong> 这是完全由开发者控制的阶段，通常在CPU上运行，一般是执行一些碰撞之类的计算。此阶段不可再分。</p>
+<p><strong>Geometry</strong> 这个阶段分为四个小流程，分别是：<em>vertex shading</em> ， <em>optional vertex processing</em> ， <em>clipping</em>， <em>screen mapping</em>。</p>
+<p><strong>Rasterization</strong> 这个阶段有两个部分，<em>primitive setup</em>和<em>primitive traversal</em>。 </p>
+<p><strong>Pixel Processing</strong> 分为<em>Pixel Shading</em>和<em>Merging</em>。</p>
+<hr>
+<h4 id="Geometry"><a href="#Geometry" class="headerlink" title="Geometry"></a>Geometry</h4><h5 id="vertex-shading"><a href="#vertex-shading" class="headerlink" title="vertex shading"></a>vertex shading</h5><p>此阶段有两个任务：计算顶点位置，计算其他属性的值（如法线、纹理坐标，颜色等）。</p>
+<ol>
+<li><p>计算顶点的位置。我们所熟知的<em>model</em>-&gt;view-&gt;projection在这里计算。</p>
+<p>具体地说。<em>model</em>变换由三个变换组成：缩放（<em>scale</em>），旋转（<em>rotate</em>），平移（<em>translate</em>），通过矩阵乘法来执行这些操作。（注：rotate用的是四元数而非欧拉角的方式实现，因为欧拉角会导致<em>Gimbal Lock</em>的问题：具体参照 <a href="chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/assets/pdf/web/viewer.html?file=https%3A%2F%2Fkrasjet.github.io%2Fquaternion%2Fbonus_gimbal_lock.pdf">Bonus</a>，四元数和欧拉角之间的转化可以参照图书《3D数学基础：图形与游戏开发》或者<a href="chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/assets/pdf/web/viewer.html?file=https%3A%2F%2Fkrasjet.github.io%2Fquaternion%2Fquaternion.pdf">quaternion</a>。</p>
+<p>接着是view矩阵（即摄像机）。</p>
+<p>最后是projection投影矩阵，这个矩阵的推导较为冗长，这里我给出两个推导的链接：<a href="https://blog.csdn.net/popy007/article/details/1797121">深入探索透视投影变换</a>，<a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">OpenGL projection matrix</a>，写的都很好。</p>
+</li>
+<li><p>计算顶点其他属性的值。在计算的过程中要注意透视纹理映射的问题，具体参考：<a href="https://blog.csdn.net/popy007/article/details/5556639">深入探索透视纹理映射（上）</a>, <a href="https://blog.csdn.net/popy007/article/details/5570803">深入探索透视纹理映射（下）</a>。</p>
+</li>
+</ol>
+<h5 id="optional-vertex-processing"><a href="#optional-vertex-processing" class="headerlink" title="optional vertex processing"></a>optional vertex processing</h5><p>这个阶段是可选的，有曲面细分，几何着色和流输出（图元装配在曲面细分里面），这不是我们阐述的重点。</p>
+<h5 id="clipping"><a href="#clipping" class="headerlink" title="clipping"></a>clipping</h5><p>裁剪过程发生在<strong>裁剪空间</strong>里面（在执行了<em>model-&gt;view-&gt;projection</em>变换之后，顶点的坐标所处的空间称为裁剪空间）。我们不妨将投影后的点设为$(x, y, z, w)$，此时，不符合</p>
+<p>$$\begin{equation}<br>\left{<br>             \begin{array}{<strong>lr</strong>}<br>             -w &lt; x &lt; w &amp;  \<br>             -w &lt; y &lt; w \<br>             0 &lt; z &lt; w(OpenGL的话这里是-w &lt; z &lt; w) &amp;<br>             \end{array}<br>\right.<br>\end{equation} $$</p>
+<p>的点将会被裁去（裁去之后依据裁剪情况重新组合图元）。</p>
+<table><tr><td bgcolor = lightblue> <strong>为什么是这个范围？：</strong>很简单，在裁剪之后会进行透视除法，将原本perspective构建的视锥体变换到CVV空间(CVV空间中的坐标系称之NDC)中。经过透视除法之后的点(x, y, z,w)变成(x/w, y/w, z/w, 1)，我们知道他们应当处于CVV内，即取值范围为[-1, 1](z在DirectX中是[0, 1]，在OpenGL中是[-1, 1])，我们将这个取值范围逆着推回来即可。此外透视除法会产生近大远小的效果。
+</table>
+
+<p>裁剪之后便会进行<strong>透视除法</strong>，将视锥体变成长方体（OpenGL中是正方体），同时产生近大远小的效果。我们也可以说透视除法是要把齐次坐标转回欧式坐标。</p>
+<h5 id="screen-mapping"><a href="#screen-mapping" class="headerlink" title="screen mapping"></a>screen mapping</h5><p>将处于CVV空间的$(x, y)$坐标映射到屏幕（视口）上（Z坐标作为深度值存储到深度缓冲中）。</p>
+<p>这里我们可以知道，如果<em>Perspective<em>的视锥体的</em>Aspect<em>不为1，透视除法之后会失真，而映射到屏幕（视口）上之后会复原（因此我们要把视口的长宽比设置为</em>Perspective</em> 的<em>Aspect</em>一致，这样子映射之后才不会失真）。</p>
+<h4 id="Rasterization"><a href="#Rasterization" class="headerlink" title="Rasterization"></a>Rasterization</h4><p>光栅化有三角形建立和三角形遍历两个阶段。</p>
+<ol>
+<li><strong>primitive setup</strong>（三角形（图元）建立）：三角形通过传入三个点得以建立。</li>
+<li><strong>primitive traversal</strong>（三角形（遍历））：遍历三角形内的片元（fragment），送至下一个阶段。</li>
+</ol>
+<h4 id="Pixel-Processing"><a href="#Pixel-Processing" class="headerlink" title="Pixel Processing"></a>Pixel Processing</h4><ol>
+<li><strong>pixel shading</strong>：所有逐像素的计算都在这里完成，光照，纹理，颜色值都是在这里计算。</li>
+<li><strong>merging</strong>：执行深度测试，模板测试，混合测试等过程。</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>写完了光栅化渲染器，对<em>OpenGL</em>中的图形渲染管线（pipeline）有了初步的理解和认知，尽管实现的只是一个最简单的光栅化渲染器，但以后面对封装好的图形库、游戏引擎的时候总不至于两眼一抹黑。</p>
+<p>路还长着呢。</p>
+<h2 id="拓展知识"><a href="#拓展知识" class="headerlink" title="拓展知识"></a>拓展知识</h2><ol>
+<li><p>Directx在坐标运算中<strong>全程</strong>采用的是左手坐标系，OpenGL的NDC是左手坐标系，其他时候都是右手坐标系。</p>
+</li>
+<li><p>为什么坐标的运算要用到齐次坐标？可以参考这个回答：<a href="https://blog.csdn.net/janestar/article/details/44244849">关于齐次坐标的理解（经典）</a>，此外也有另外一种角度，参考：<a href="https://blog.csdn.net/popy007/article/details/1797121">深入探索透视投影变换</a>的开头部分。</p>
+</li>
+</ol>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><p><a href="chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/assets/pdf/web/viewer.html?file=https%3A%2F%2Fkrasjet.github.io%2Fquaternion%2Fbonus_gimbal_lock.pdf">Bonus</a> </p>
+</li>
+<li><p><a href="chrome-extension://cdonnmffkdaoajfknoeeecmchibpmkmg/assets/pdf/web/viewer.html?file=https%3A%2F%2Fkrasjet.github.io%2Fquaternion%2Fquaternion.pdf">quaternion</a></p>
+</li>
+<li><p><a href="https://blog.csdn.net/popy007/category_640562.html">3D图形固定短线</a>（这个专栏讲的是真的好）</p>
+</li>
+<li><p><a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">OpenGL projection matrix</a></p>
+</li>
+<li><p><a href="https://zhuanlan.zhihu.com/p/60614010">RTR 4th阅读笔记 Chapter2</a></p>
+</li>
+<li><p><a href="https://www.zhihu.com/question/41291685/answer/90402808">GPU在进行vertex shading之后，rasterization之前，是怎么剪裁的？——徐行的回答</a></p>
+</li>
+<li><p><a href="https://www.zhihu.com/question/289794588/answer/466643632">在透视投影中要进行透视除法。对于这一步 有没有更具体的解释或更形象的类比 让人容易理解？——milo yip的回答</a></p>
+</li>
+</ol>
+
         </div>
         
         <div class="level is-size-7 is-uppercase">
@@ -193,17 +261,10 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/02/11/%E4%BA%8C%E6%9E%81%E7%AE%A1%E5%92%8C%E4%B8%89%E6%9E%81%E7%AE%A1%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">二极管和三极管的工作原理</span>
-            </a>
-        </div>
-        
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/01/22/%E6%98%BE%E7%A4%BA%E5%99%A8%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%EF%BC%88LCD%E4%B8%BA%E4%BE%8B%EF%BC%89/">
-                <span class="level-item">显示器的工作原理（LCD为例）</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/02/17/%E6%8B%86%E8%A7%A3%E9%97%AE%E9%A2%98%E7%9A%84%E8%83%BD%E5%8A%9B/">
+                <span class="level-item">拆解问题的能力</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -278,7 +339,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            6
+                            7
                         </p>
                     </a>
                 </div>
@@ -349,11 +410,11 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="从零开始的光栅化渲染器（一）" height="28">
+                    <img src="/images/logo.svg" alt="光栅化渲染器" height="28">
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2020 从零开始的光栅化渲染器（一）&nbsp;
+                &copy; 2020 光栅化渲染器&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
