@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>BVH树的构建</title>
+
+
+    <meta name="description" content="本篇文章把 BVH 的代码结构写一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BVH树的构建">
+<meta property="og:url" content="http://yoursite.com/2020/03/18/BVH%E6%A0%91%E7%9A%84%E6%9E%84%E5%BB%BA/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="本篇文章把 BVH 的代码结构写一下。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jckcoenf.oss-cn-beijing.aliyuncs.com/12.jpg">
+<meta property="article:published_time" content="2020-03-18T05:45:00.000Z">
+<meta property="article:modified_time" content="2020-03-18T16:51:18.013Z">
+<meta property="article:tag" content="计算机图形学">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jckcoenf.oss-cn-beijing.aliyuncs.com/12.jpg">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="BVH树的构建" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">主页</a>
+                
+                <a class="navbar-item"
+                href="/categories">分类</a>
+                
+                <a class="navbar-item"
+                href="/tags">标签</a>
+                
+                <a class="navbar-item"
+                href="/archives">归档</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/jckcoenf/jckcoenf.github.io">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/12.jpg" alt="BVH树的构建">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-18T05:45:00.000Z">2020-03-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/">计算机图形学</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    19 分钟 读完 (大约 2820 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                BVH树的构建
+            
+        </h1>
+        <div class="content">
+            <p>本篇文章把 <em>BVH</em> 的代码结构写一下。</p>
+<a id="more"></a>
+
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p><strong><em>为什么要引入BVH（Bounding Volume Hierarchies 层次包围盒）</em></strong>？</p>
+<p>在之前，我们每发出一条射线就要进行许多次的求交运算（和渲染的物体数量成正比，也就是说时间复杂度$O(n)$）；求交命中了还好，要是求交点不中，就相当于之前所作的运算全白费了（大概率是命中不了）。在这种情况下渲染时间就会变得超长。</p>
+<p>在此背景下引入了一系列的算法优化，其中一个就是<strong><em>BVH</em></strong>。</p>
+<p>具体来说，BVH的核心思想就是用体积略大而几何特征简单的包围盒来近似描述复杂的几何对象，并且这种包围盒是嵌套的，我们只需要对包围盒进行进一步的相交测试，就可以越来越逼近实际对象（很明显这个功能需要用到树形的层次结构）。</p>
+<p><img src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/BVH.jpg" alt="BVH示意图-图片来自知乎用户毛星云"></p>
+<p>下面我尝试详细地写一下BVH的构建过程。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="求交"><a href="#求交" class="headerlink" title="求交"></a>求交</h3><p>首先我们需要将场景中的物体全都容纳在一个大的包围盒里面。然后再进一步细分。我们不妨设置一个简单的长方体包围盒（2D）。</p>
+<p><img src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/%E5%8C%85%E5%9B%B4%E7%9B%92.png" alt="包围盒示意图"></p>
+<p>假设此时存在一条射线，我们怎么去判断这条射线和包围盒有没有相交？（当然是用眼睛看=_=）我想下图已经很明白了：拿出一个包围盒，延长它的边线，得到一个像“＃”一样的图形。如果射线与包围盒相交，那么对应的t值区间是有重叠（<em>overlap</em>）的，如果不相交，则没有重叠。（当然还有别种方法检测是否重叠）</p>
+<p><img src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/%E6%B1%82%E4%BA%A4%E7%82%B9.png" alt="射线交点示意图"></p>
+<p>给出代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">hit</span><span class="params">(<span class="keyword">const</span> ray&amp; r, <span class="keyword">float</span> tmin, <span class="keyword">float</span> tmax)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> a = <span class="number">0</span>; a &lt; <span class="number">2</span>; a++)  <span class="comment">//two axis</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">float</span> invD = <span class="number">1.0f</span> / r.direction()[a];  <span class="comment">//note: operator[] is overloaded</span></span><br><span class="line">        <span class="comment">//according to the formula: P(t) = origin + direction * t</span></span><br><span class="line">        <span class="keyword">float</span> t0 = (bounding_box.<span class="built_in">min</span>()[a] - r.origin()[a]) * invD;  <span class="comment">//multiplication is 																	//faster </span></span><br><span class="line">        <span class="keyword">float</span> t1 = (bounding_box.<span class="built_in">max</span>()[a] - r.origin()[a]) * invD;</span><br><span class="line">        <span class="comment">//t0 must less than t1</span></span><br><span class="line">        <span class="keyword">if</span> (invD &lt; <span class="number">0.0f</span>) <span class="built_in">std</span>::swap(t0, t1);</span><br><span class="line">        </span><br><span class="line">        tmin = (tmin &gt; t0) ? tmin : t0;</span><br><span class="line">        tmax = (tmax &lt; t1) ? tmax : t1;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (tmax &lt;= tmin)  <span class="comment">//"=" :if wiped the edge, it is defined as missed</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>倘若不明白，可以跟着代码走一遍。</p>
+<p>上面代码还有需要注意的地方，也就是当<em>r.direction</em>平行于轴的时候：</p>
+<ol>
+<li><p><em>t0</em>和<em>t1</em>都会同时为正无穷或者负无穷（因为有+0和-0），我们通过设置最大最小值来解决这个问题。这也就是一开始需要传入<em>tmin</em>和<em>tmax</em>的原因。</p>
+</li>
+<li><p>在<em>r.direction</em>平行于轴的前提下，如果<em>origin</em>位于包围盒边缘，即：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bounding_box.<span class="built_in">min</span>()[a] == r.origin()[a];</span><br><span class="line"><span class="comment">//or</span></span><br><span class="line">bounding_box.<span class="built_in">max</span>()[a] == r.origin()[a];</span><br></pre></td></tr></table></figure>
+
+<p>我们会得到<em>NaN<em>（</em>not a number</em>)，这种情况下，由于任何与<em>NaN</em>的比较都会返回<em>false</em>，因此<em>tmin</em>和<em>tmax</em>的比较也会返回<em>false</em>，此时我们当作它hit成功。</p>
+</li>
+</ol>
+<h3 id="创建Bounding-box"><a href="#创建Bounding-box" class="headerlink" title="创建Bounding box"></a>创建<em>Bounding box</em></h3><p>这个比较简单，直接给出源码：</p>
+<ol>
+<li><p>对于sphere类：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">bounding_box</span><span class="params">(<span class="keyword">float</span> t0, <span class="keyword">float</span> t1, aabb&amp; box)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	box = aabb(center - vec3(radius, radius, radius), center + vec3(radius, radius, radius));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//t0, t1 in there is not used, just because of pure virtual function in the class</span></span><br><span class="line"><span class="comment">//of hittable</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对于moving sphere类：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">bounding_box</span><span class="params">(<span class="keyword">float</span> t0, <span class="keyword">float</span> t1, aabb&amp; box)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//center(t) is a function that the center of the sphere change over time</span></span><br><span class="line">    <span class="function">aabb <span class="title">box0</span><span class="params">(center(t0) - vec3(radius, radius, radius),</span></span></span><br><span class="line"><span class="function"><span class="params">             center(t0)+ vec3(radius, radius, radius))</span></span>;</span><br><span class="line">    <span class="function">aabb <span class="title">box1</span><span class="params">(center(t1) - vec3(radius, radius, radius),</span></span></span><br><span class="line"><span class="function"><span class="params">		center(t1) + vec3(radius, radius, radius))</span></span>;</span><br><span class="line">    box = surrounding_box(box0, box1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>包围两个盒子的盒子：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">float</span> <span class="title">ffmin</span><span class="params">(<span class="keyword">float</span> a, <span class="keyword">float</span> b)</span> </span>&#123;a &lt; b ? a : b&#125;;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">float</span> <span class="title">ffmax</span><span class="params">(<span class="keyword">float</span> a, <span class="keyword">float</span> b)</span> </span>&#123;a &gt; b ? a : b&#125;;</span><br><span class="line"><span class="function">aabb <span class="title">surrounding_box</span><span class="params">(aabb box0, aabb box1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">vec3 <span class="title">small</span><span class="params">(ffmin(box0.<span class="built_in">min</span>().x(), box1.<span class="built_in">min</span>().x()),</span></span></span><br><span class="line"><span class="function"><span class="params">		ffmin(box0.<span class="built_in">min</span>().y(), box1.<span class="built_in">min</span>.y()),</span></span></span><br><span class="line"><span class="function"><span class="params">		ffmin(box0.<span class="built_in">min</span>().z(), box1.<span class="built_in">min</span>.z()))</span></span>;</span><br><span class="line">	<span class="function">vec3 <span class="title">big</span><span class="params">(ffmax(box0.<span class="built_in">max</span>().x(), box1.<span class="built_in">max</span>().x()),</span></span></span><br><span class="line"><span class="function"><span class="params">		ffmax(box0.<span class="built_in">max</span>().y(), box1.<span class="built_in">max</span>().y()),</span></span></span><br><span class="line"><span class="function"><span class="params">		ffmax(box0.<span class="built_in">max</span>().z(), box1.<span class="built_in">max</span>.z()))</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> aabb(small, big);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>构建bounding box列表（嵌套box）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">bounding_box</span><span class="params">(<span class="keyword">float</span> t0, <span class="keyword">float</span> t1, aabb&amp; box)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(list_size &lt; <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    aabb temp_box;</span><br><span class="line">    <span class="keyword">bool</span> first_true = <span class="built_in">list</span>[<span class="number">0</span>]-&gt;bounding_box(t0, t1, temp_box); <span class="comment">//Polymorphism,it will 									//call the sphere or moving_sphere's bounding_box</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!first_true) </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        box = temp_box;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; list_size; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">list</span>[i]-&gt;bounding_box(t0, t1, temp_box))</span><br><span class="line">            box = surrounding_box(box, temp_box);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//this function will be called at BVH construction</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="创建BVH树"><a href="#创建BVH树" class="headerlink" title="创建BVH树"></a>创建BVH树</h3><p>这里大概是最麻烦的地方了=_=</p>
+<p>首先给出BVH类的整体实现：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">bvh_node</span> :</span> <span class="keyword">public</span> hittable</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    bvh_node()&#123;&#125;;</span><br><span class="line">    bvh_node(hittable **l, <span class="keyword">int</span> n, <span class="keyword">float</span> t0, <span class="keyword">float</span> t1);</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">bool</span> <span class="title">hit</span><span class="params">(<span class="keyword">const</span> ray&amp;r, <span class="keyword">float</span> tmin, <span class="keyword">float</span> tmax, hit_record&amp; rec)</span> <span class="keyword">const</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">bool</span> <span class="title">bounding_box</span><span class="params">(<span class="keyword">float</span> t0, <span class="keyword">float</span> t1, aabb&amp; b)</span> <span class="keyword">const</span></span>;</span><br><span class="line">    </span><br><span class="line">    hittable* left;</span><br><span class="line">    hittable* right;</span><br><span class="line">    aabb box;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//return itself</span></span><br><span class="line"><span class="keyword">bool</span> bvh_node::bounding_box(<span class="keyword">float</span> t0, <span class="keyword">float</span> t1, aabb&amp; b) <span class="keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line">    b = box;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们需要注意一下<em>child</em>指针<strong><em>left</em></strong>和<strong><em>right</em></strong>，它们的指针类型是<strong><em>hittable</em></strong> <em>，即通用指针，这就意味着它们可以指向其他的 *bvh_node</em>，或者<em>sphere</em>类，又或者其他继承自<em>hittable</em>类的子类型。这有利于<strong>多态</strong>实现。</p>
+<p>码接上文，先给出<em>bvh_node</em>构造函数的实现：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">bvh_node::bvh_node(hittable **l, <span class="keyword">int</span> n, <span class="keyword">float</span> t0, <span class="keyword">float</span> t1)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> axis = <span class="keyword">int</span>(<span class="number">3</span> * random_double()); <span class="comment">//random_double will give a number between 0 &amp; 1</span></span><br><span class="line">    <span class="comment">//sort</span></span><br><span class="line">    <span class="keyword">if</span> (axis == <span class="number">0</span>) <span class="comment">// x-axis</span></span><br><span class="line">        qsort(l, n, <span class="keyword">sizeof</span>(hittable*), box_x_compare);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (axis == <span class="number">1</span>) <span class="comment">//y -axis</span></span><br><span class="line">        qsort(l, n, <span class="keyword">sizeof</span>(hittable*), box_y_compare);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        qsort(l, n, <span class="keyword">sizeof</span>(hittable*), box_z_compare);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">1</span>)</span><br><span class="line">        left = right = l[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (n == <span class="number">2</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        left = l[<span class="number">0</span>];</span><br><span class="line">        right = l[<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        left = <span class="keyword">new</span> bvh_node(l, n / <span class="number">2</span>, t0, t1);</span><br><span class="line">        right = <span class="keyword">new</span> bvh_node(l + n / <span class="number">2</span>, n - n / <span class="number">2</span>, t0, t1);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">     </span><br><span class="line">    aabb box_left, box_right;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (!left-&gt;bounding_box(t0, t1, box_left) ||</span><br><span class="line">        !right-&gt;bounding_box(t0, t1, box_right))</span><br><span class="line">    	<span class="built_in">std</span>::err &lt;&lt; <span class="string">"no bounding box in bvh_node constructor"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    </span><br><span class="line">    box = surrounding_box(box_left, box_right);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">box_x_compare</span> <span class="params">(<span class="keyword">const</span> <span class="keyword">void</span> * a, <span class="keyword">const</span> <span class="keyword">void</span> * b)</span> </span>&#123;</span><br><span class="line">    aabb box_left, box_right;</span><br><span class="line">    hittable *ah = *(hittable**)a;</span><br><span class="line">    hittable *bh = *(hittable**)b;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!ah-&gt;bounding_box(<span class="number">0</span>,<span class="number">0</span>, box_left) || !bh-&gt;bounding_box(<span class="number">0</span>,<span class="number">0</span>, box_right))</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cerr</span> &lt;&lt; <span class="string">"no bounding box in bvh_node constructor\n"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (box_left.<span class="built_in">min</span>().x() - box_right.<span class="built_in">min</span>().x() &lt; <span class="number">0.0</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//box_y_compare and box_z_compare are just like box_x_compare, so I won't give them.</span></span><br></pre></td></tr></table></figure>
+<p>兴许这里需要详细解释一下：</p>
+<p>一开始我们将<em>hittable*** *l</em> 即所有物体进行快速排序，排序依据随机（<em>x y z</em>）；</p>
+<p>之后开始构建<em>BVH</em>树：</p>
+<ol>
+<li><p>对于只有一个物体的<em>hittable list</em> ，将左子树和右子树都赋值为这个物体，之后分别调用<em>bounding_box</em>，将左右子树的物体（同一个）外面都用包围盒围起来（实质上是构建一个虚拟盒子），再然后调用<em>surrounding_box</em>将左右子树物体包成一个<em>box</em>。此时左右子树为左右叶子节点。</p>
+</li>
+<li><p>对于两个物体的<em>hittable list</em>，将左子树赋值为第一个物体，右子树赋值为第二个物体，之后分别调用 <em>bounding_box</em>，将两个物体外面都用包围盒围起来，再然后调用<em>surrounding_box</em>将左右子树物体包成一个<em>box</em>。此时左右子树为左右叶子节点。</p>
+</li>
+<li><p>对于超过两个物体的<em>hittable list</em>，左子树为新构建的<em>BVH</em>节点，右子树也为新构建的<em>BVH</em>节点，递归下去，直到$n = 2$的时候终止递归（记住在每一个节点中都是先递归左子树再递归右子树）。</p>
+<p>终止递归之后，对于$n = 2$，将当前节点的左右叶子节点（左右物体）用<em>bounding_box</em>包围起来，然后包成一个<em>box</em>；执行完之后返回到上一层节点$n = 4$。</p>
+<p>返回到节点$n = 4$之后，会开始构建右子树的叶子节点，同样的用<em>bounding_box</em>包围，然后包成一个<em>box</em>；</p>
+<p>当节点$n = 4$的右子树也构建完了之后，就会依照运行顺序继续往下运行，也即：调用<em>bounding_box</em>分别将左右子树的两个物体再包一遍（这里调用的<em>bounding_box</em>是<em>bvh_node</em>的，也即返回自身的那个），然后将左右子树的物体包成一个<em>box</em>；</p>
+<p>一直这样子持续下去，直到最后变成一个最大的<em>box</em>。</p>
+<p>值得一提的是，每次递归，都会导致<em>hittable** l</em> 的局部排序方式改变。</p>
+</li>
+</ol>
+<hr>
+<p>构建完了BVH树之后，接下来就是<em>hit</em>函数的判定了，同样先给出代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> bvh_node::hit(<span class="keyword">const</span> ray&amp; r, <span class="keyword">float</span> tmin, <span class="keyword">float</span> tmax, hit_record&amp; rec) <span class="keyword">const</span> </span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">//box.hit is the most large aabb's hit--yes, we gave it at the beginning of the article</span></span><br><span class="line">    <span class="keyword">if</span>(box.hit(r, tmin, tmax))</span><br><span class="line">    &#123;</span><br><span class="line">        hit_record left_rec, right_rec;</span><br><span class="line">        <span class="keyword">bool</span> hit_left = left-&gt;hit(r, tmin, tmax, left_rec);</span><br><span class="line">        <span class="keyword">bool</span> hit_right = right-&gt;hit(r, tmin, tmax, right_rec);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (hit_left &amp;&amp; hit_right)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (left_rec.t &lt; right_rec.t)</span><br><span class="line">                rec = left_rec;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                rec = right_rec;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (hit_left)</span><br><span class="line">        &#123;</span><br><span class="line">            rec = left_rec;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (hit_right)</span><br><span class="line">        &#123;</span><br><span class="line">            rec = right_rec;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>bvh_node::hit</em>函数一开始就调用<em>aabb</em>类的<em>hit</em>函数（用的是最大的<em>box</em>，我们知道当<em>bvh</em>树对象创建好了之后构造函数就会将整个box构建好），当我们<em>hit</em>到了最大的<em>box</em>之后就会继续往下（如果连最大的<em>box</em>都没有<em>hit</em>到的话后面的也不用继续往下判定了，直接返回<em>false</em>就好）；</p>
+<p>往下，开始判定左子树是否有<em>hit</em>到东西：如果左子树是一个叶子节点类型，那么就会调用<em>aabb</em>类的<em>hit</em>函数，如果左子树是一个<em>bvh_node</em>节点，那么就会递归调用<em>bvh_node::hit</em>（递归的<em>box</em>显然会随着调用对象的改变而改变，这里是左子树对应的<em>box</em>，而不是<em>root</em>对应的<em>box</em>）。</p>
+<p>递归调用直到出现子叶节点，此时对应节点的<em>box<em>调用的</em>hit<em>是</em>aabb<em>类的，</em>hit<em>到最后的子叶节点之后，就会调用具体物体的</em>hit<em>函数了（比如说</em>sphere::hit<em>或者</em>moving_sphere::hit<em>），并且将最后的</em>hit<em>结果保存起来。再之后就开始返回（</em>true</em> or <em>false</em>）到上一层节点，进行右子树的判定，重复这个过程。</p>
+<p>后面就简单了，返回<em>hit</em>到的物体（如果两个物体都<em>hit</em>到（即重叠），那么就取最近的那个），对于一条射线来说，一次<em>hit</em>到的物体最多有一个，因此我们不需要存储所有<em>hit_record</em>，只需要一个就行。这就是为啥没用上<em>list</em>的缘故。</p>
+<hr>
+<p>以上。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一开始理解的话难度来自于多态的应用以及递归函数具体的行为，理解好了它们，构建<em>BVH</em>就很简单了。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://zhuanlan.zhihu.com/p/32300891">【《Real-Time Rendering 3rd》 提炼总结】(十一) 第十四章 : 游戏开发中的渲染加速算法总结</a></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" rel="tag">计算机图形学</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/13/%E6%B2%A1%E6%9C%89%E6%84%8F%E4%B9%89%E7%9A%84%E4%BA%BA%E7%94%9F/">
+                <span class="level-item">没有意义的人生</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: 'nQ7Hv1DkwMTFL8o3Pa8t7oqW-gzGzoHsz',
+        app_key: 'WYfnbgKAIjdHztIi93RYV267',
+        placeholder: 'Say something...'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="jckcoenf">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        jckcoenf
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        人类的悲欢并不相通
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>广东.中国</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            11
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            3
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            3
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/jckcoenf" target="_blank" rel="noopener">
+                关注我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/jckcoenf">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="BVH树的构建" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 BVH树的构建&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/jckconef">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://yoursite.com',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":200,"height":400},"mobile":{"show":true}});</script></body>
+</html>
