@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jckcoenf.oss-cn-beijing.aliyuncs.com/14.jpg">
 <meta property="article:published_time" content="2020-03-31T12:11:48.000Z">
-<meta property="article:modified_time" content="2020-04-02T16:11:05.968Z">
+<meta property="article:modified_time" content="2020-04-02T16:15:51.565Z">
 <meta property="article:tag" content="计算机图形学">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://jckcoenf.oss-cn-beijing.aliyuncs.com/14.jpg">
@@ -152,7 +152,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    11 分钟 读完 (大约 1656 个字)
+                    11 分钟 读完 (大约 1648 个字)
                 </span>
                 
                 
@@ -174,7 +174,7 @@
 <h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="Chapter1：Overview"><a href="#Chapter1：Overview" class="headerlink" title="Chapter1：Overview"></a>Chapter1：Overview</h3><p>总括，没啥好讲的。提醒了一下读者<strong>BVH</strong>和<strong>Perlin noise</strong>是本书的难点。</p>
 <h3 id="Chapter2：Motion-Blur"><a href="#Chapter2：Motion-Blur" class="headerlink" title="Chapter2：Motion Blur"></a>Chapter2：Motion Blur</h3><p>Motion blur：运动模糊。在我们的现实世界中，我们可以通过在相机快门的开启时间间隔内移动相机或者移动被拍物体，来造成一种模糊的效果，这种效果就称之为运动模糊。</p>
 <p>在光线追踪渲染器中，我们要渲染出这种效果，可以通过添加一个时间变量来解决：创建一个圆心随着时间<em>t</em>改变<em>moving_sphere</em>类，同时重写<em>hit</em>函数即可。</p>
-<h3 id="Chapter3：Bounding-Volume-Hierarchies"><a href="#Chapter3：Bounding-Volume-Hierarchies" class="headerlink" title="Chapter3：Bounding Volume Hierarchies"></a>Chapter3：Bounding Volume Hierarchies</h3><p>Bounding Volume Hierarchies也就是层次包围盒。我之前写过博客，这里就不赘述了：<a href="[http://jckcoenf.top/2020/03/18/BVH%E6%A0%91%E7%9A%84%E6%9E%84%E5%BB%BA/](http://jckcoenf.top/2020/03/18/BVH树的构建/)">BVH树的构建</a>。</p>
+<h3 id="Chapter3：Bounding-Volume-Hierarchies"><a href="#Chapter3：Bounding-Volume-Hierarchies" class="headerlink" title="Chapter3：Bounding Volume Hierarchies"></a>Chapter3：Bounding Volume Hierarchies</h3><p>Bounding Volume Hierarchies也就是层次包围盒。我之前写过博客，这里就不赘述了：<a href="http://jckcoenf.top/2020/03/18/BVH%E6%A0%91%E7%9A%84%E6%9E%84%E5%BB%BA/#more">BVH树的构建</a></p>
 <h3 id="Chapter4：Solid-Texture"><a href="#Chapter4：Solid-Texture" class="headerlink" title="Chapter4：Solid Texture"></a>Chapter4：Solid Texture</h3><p>从这里开始引入<em>Texture</em>（纹理）的概念，所谓的纹理，其实也就是在物体表面设置各种颜色的函数。我们可以简单的通过设置物体表面各处的<em>attenuation</em>参数不相同来实现最简单的纹理效果。</p>
 <h3 id="Chapter5：Perlin-Noise"><a href="#Chapter5：Perlin-Noise" class="headerlink" title="Chapter5：Perlin Noise"></a>Chapter5：Perlin Noise</h3><p>图形噪声，是计算机图形学中一类随机算法，经常用来模拟自然界中的各种纹理材质。这一章从最基础的value noise讲起，然后慢慢地实现各种效果。但这一章作者讲得不是很好，颇有点让人丈二和尚摸不着头脑，我更加建议看<strong><em><a href="https://www.scratchapixel.com/">ScratchPixel</a></em></strong>的对应章节：</p>
 <p><a href="https://www.scratchapixel.com/lessons/procedural-generation-virtual-worlds/procedural-patterns-noise-part-1/introduction">Value Noise and Procedural Patterns: Part 1</a></p>
