@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>从零开始的光栅化渲染器（零）：启程</title>
+
+
+    <meta name="description" content="光栅化渲染器的具体实现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零开始的光栅化渲染器（零）：启程">
+<meta property="og:url" content="http://yoursite.com/2020/05/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E5%85%89%E6%A0%85%E5%8C%96%E6%B8%B2%E6%9F%93%E5%99%A8%EF%BC%88%E9%9B%B6%EF%BC%89%EF%BC%9A%E5%90%AF%E7%A8%8B/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="光栅化渲染器的具体实现">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jckcoenf.oss-cn-beijing.aliyuncs.com/15.jpg">
+<meta property="article:published_time" content="2020-05-10T03:56:28.000Z">
+<meta property="article:modified_time" content="2020-05-10T04:09:31.851Z">
+<meta property="article:tag" content="计算机图形学">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jckcoenf.oss-cn-beijing.aliyuncs.com/15.jpg">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="从零开始的光栅化渲染器（零）：启程" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">主页</a>
+                
+                <a class="navbar-item"
+                href="/categories">分类</a>
+                
+                <a class="navbar-item"
+                href="/tags">标签</a>
+                
+                <a class="navbar-item"
+                href="/archives">归档</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/jckcoenf/jckcoenf.github.io">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="https://jckcoenf.oss-cn-beijing.aliyuncs.com/15.jpg" alt="从零开始的光栅化渲染器（零）：启程">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-05-10T03:56:28.000Z">2020-05-10</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/">计算机图形学</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 分钟 读完 (大约 1940 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                从零开始的光栅化渲染器（零）：启程
+            
+        </h1>
+        <div class="content">
+            <p>光栅化渲染器的具体实现</p>
+<a id="more"></a>
+
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>之前写过一篇光栅化渲染器的总括，这里就开始讲具体的代码实现吧。涉及到推导公式之类的我会另起一篇博客然后放个链接，不占用篇幅；本文所涉及到的参考资料及链接也会在文中或者文末给出来。</p>
+<blockquote>
+<p>注：此光栅化渲染器不涉及或者很少涉及到第三方库。</p>
+</blockquote>
+<p>（前排提醒，限于本人专业素养不够，故此光栅化渲染器完成度较低）</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>大部分教程基本都是从平移(<em>translate)</em> 缩放(<em>scale</em>)以及旋转(<em>rotate</em>)讲起的。当然本博客也不例外，但在进行正式内容之前，我们需要做一些准备工作：展示渲染结果。</p>
+<p>很多光栅化渲染器会用一些第三方库（如经常和OpenGL出现在一起的GLFW库）或者通过输出RGB值至ppm图像文件的方式来展示渲染成果。这是简便且不错的选择，但我仍然选择用Windows API来写一个展示窗口，不依赖于第三方库，而此框架搭建起来也异常简单（你需要对window编程有一点点的了解，如果不了解的话，可以看一些简易的教程快速入门，如：<a href="http://c.biancheng.net/cpp/html/2845.html">C语言中文网：Windows编程</a>，或者<a href="https://zhuanlan.zhihu.com/people/b34b9010f0bb6b40fe18653f1baeb09e">@毛星云</a> 的《<a href="https://book.douban.com/subject/25756435/">逐梦之旅：Windows游戏编程之从零开始</a>》第三、四章）。</p>
+<p>下面是一个Windows展示程序：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"><span class="comment">//窗口过程函数</span></span><br><span class="line"><span class="function">LRESULT CALLBACK <span class="title">WndProc</span><span class="params">(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> WINAPI <span class="title">WinMain</span><span class="params">(HINSTANCE hInstance, HINSTANCE hPrevInstance,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPSTR lpCmdLine, <span class="keyword">int</span> nCmdShow)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//窗口类</span></span><br><span class="line">	WNDCLASSEX wndClass = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	wndClass.cbSize = <span class="keyword">sizeof</span>(WNDCLASSEX);</span><br><span class="line">	wndClass.style = CS_HREDRAW | CS_VREDRAW;</span><br><span class="line">	wndClass.lpfnWndProc = WndProc;</span><br><span class="line">	wndClass.cbClsExtra = <span class="number">0</span>;</span><br><span class="line">	wndClass.cbWndExtra = <span class="number">0</span>;</span><br><span class="line">	wndClass.hInstance = hInstance;</span><br><span class="line">	wndClass.hIcon = <span class="literal">NULL</span></span><br><span class="line">	wndClass.hCursor = LoadCursor(<span class="literal">NULL</span>, IDC_ARROW);</span><br><span class="line">	wndClass.hbrBackground = (HBRUSH)GetStockObject(GRAY_BRUSH);  <span class="comment">//强制转化</span></span><br><span class="line">	wndClass.lpszMenuName = <span class="literal">NULL</span>;</span><br><span class="line">	wndClass.lpszClassName = TEXT(<span class="string">"Rasterization"</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//注册窗口类</span></span><br><span class="line">	<span class="keyword">if</span> (!RegisterClassEx(&amp;wndClass))</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	</span><br><span class="line">	HWND hwnd = CreateWindow(<span class="string">L"Rasterization"</span>, <span class="string">L"光栅化渲染器"</span>, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, </span><br><span class="line">		<span class="number">800</span>, <span class="number">600</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, hInstance, <span class="literal">NULL</span>);</span><br><span class="line">        <span class="comment">//显示和更新窗口，这里因为更新域是空的，故updatewindows函数不会发送WM_PAINT消息给过程处理函数</span></span><br><span class="line">	ShowWindow(hwnd, nCmdShow);</span><br><span class="line">	UpdateWindow(hwnd);</span><br><span class="line">         <span class="comment">//信息结构体</span></span><br><span class="line">	MSG msg = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="keyword">while</span> (msg.message != WM_QUIT)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (GetMessage(&amp;msg, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="number">0</span>)) </span><br><span class="line">		&#123;</span><br><span class="line">			TranslateMessage(&amp;msg);</span><br><span class="line">			DispatchMessage(&amp;msg);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	UnregisterClass(TEXT(<span class="string">"Rasterization"</span>), wndClass.hInstance); </span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//窗口过程函数</span></span><br><span class="line"><span class="function">LRESULT CALLBACK <span class="title">WndProc</span><span class="params">(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    HDC hdc;</span><br><span class="line">    PAINTSTRUCT ps;</span><br><span class="line">    RECT <span class="built_in">rect</span>;</span><br><span class="line">    <span class="keyword">switch</span>(message)</span><br><span class="line">    &#123;</span><br><span class="line">    <span class="keyword">case</span> WM_PAINT:</span><br><span class="line">            fhdc = BeginPaint(hwnd, &amp;ps);</span><br><span class="line">            GetClientRect(&amp;<span class="built_in">rect</span>);</span><br><span class="line">            DrawText(hdc, <span class="string">L"这是我用来展示的窗口程序"</span>, <span class="number">-1</span>, &amp;<span class="built_in">rect</span>, DT_SINGLELINE | DT_VCENTER | DT_CENTER);</span><br><span class="line">            DeleteDC(hdc);</span><br><span class="line">            EndPaint(hwnd, &amp;ps);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> WM_DESTROY:</span><br><span class="line">	    PostQuitMessage(<span class="number">0</span>);</span><br><span class="line">	    <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:									<span class="comment">//若上述case条件都不符合，则执行该default语句</span></span><br><span class="line">	    <span class="keyword">return</span> DefWindowProc(hwnd, message, wparam, lparam);</span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后出现展示窗口</p>
+<p><img src="https://pic3.zhimg.com/v2-ebbd83fecded2c1bbbc26c0adf24f992_b.jpeg" alt="一个典型的Windows窗口应用程序"></p>
+<p>建立好窗口之后，让我们写一个画三角形的函数，并在窗口过程函数处理WM_PAINT消息的<em>switch</em>语句处调用（这里我们并不用LineTo等Windows API函数，而是简单遍历窗口所有的像素，并将处于三角形内部的点染色）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//记得要先声明</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DrawTriangle</span><span class="params">(HWND hwnd, HDC hdc, PAINTSTRUCT ps, RECT <span class="built_in">rect</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DrawTriangle</span><span class="params">(HWND hwnd, HDC hdc, PAINTSTRUCT ps, RECT <span class="built_in">rect</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        <span class="comment">//三角形三个顶点</span></span><br><span class="line">        <span class="keyword">int</span> x1 = <span class="number">200</span>, x2 = <span class="number">100</span>, x3 = <span class="number">300</span>, y1 = <span class="number">0</span> , y2 = <span class="number">300</span> , y3 = <span class="number">200</span>;</span><br><span class="line">        <span class="keyword">int</span> p1Top2_x = x2 - x1, p1Top2_y = y2 - y1;   <span class="comment">//向量P1P2</span></span><br><span class="line">        <span class="keyword">int</span> p2Top3_x = x3 - x2, p2Top3_y = y3 - y2;   <span class="comment">//P2P3</span></span><br><span class="line">        <span class="keyword">int</span> p3Top1_x = x1 - x3, p3Top1_y = y1 - y3;   <span class="comment">//P3P1</span></span><br><span class="line">        <span class="comment">//遍历像素点</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="number">600</span>; ++y)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="number">800</span>; ++x)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//构建向量P1P, P2P, P3P</span></span><br><span class="line">			<span class="keyword">int</span> p1Top_x = x - x1, p1Top_y = y - y1;</span><br><span class="line">			<span class="keyword">int</span> p2Top_x = x - x2, p2Top_y = y - y2;</span><br><span class="line">			<span class="keyword">int</span> p3Top_x = x - x3, p3Top_y = y - y3;</span><br><span class="line">			<span class="comment">//作叉乘</span></span><br><span class="line">			<span class="keyword">int</span> CrossProduct_1 = p1Top2_x * p1Top_y - p1Top_x * p1Top2_y;</span><br><span class="line">			<span class="keyword">int</span> CrossProduct_2 = p2Top3_x * p2Top_y - p2Top_x * p2Top3_y;</span><br><span class="line">			<span class="keyword">int</span> CrossProduct_3 = p3Top1_x * p3Top_y - p3Top_x * p3Top1_y;</span><br><span class="line">                        <span class="comment">//如果像素点在三角形内部，那么就调用SetPixel函数染色</span></span><br><span class="line">			<span class="keyword">if</span> (CrossProduct_1 &lt; <span class="number">0</span> &amp;&amp; CrossProduct_2 &lt; <span class="number">0</span> &amp;&amp; CrossProduct_3 &lt; <span class="number">0</span>) </span><br><span class="line">			&#123;</span><br><span class="line">                                <span class="comment">//染成绿色</span></span><br><span class="line">				SetPixel(hdc, x, y, RGB(<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>));</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后我们就得到了想要的三角形。但正如你所看到的，这个三角形的绘制效率不怎么高：一方面是因为我采取了遍历窗口所有像素的方式来画三角形（如果用扫描线算法则会好得多），但更多的是SetPixel函数的问题，为什么？我想可以直接给出一个回答链接：<a href="https://www.zhihu.com/question/48912745/answer/113372848">哪位大神可以解释下c#中GDI的Setpixel 方法耗时的原因呢</a>，这里我不再赘述。</p>
+<p><img src="https://pic2.zhimg.com/v2-dc5e312f78f32adc95f29e38962cc318.jpeg" alt="SetPixel下的慢速运行示例"></p>
+<p>既然耗时，那么我们就可以考虑扔掉它了（除非你能忍受绘制图形的时候和乌龟一样的速度；并且保证图形绘制完毕之后不去移动、最大最小化窗口——这些操作会重新发送一个WM_PAINT消息）。取而代之，我们可以考虑开辟一块内存，往内存里面填这些渲染数据，然后再一次性“贴”到窗口上，这样子的开销仅相当于调用一次SetPixel函数，结果就是大大提升了绘图效率。事实上，CreateDIBSection和BitBlt做的正是这样的事。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Paint_Triangle</span><span class="params">(HWND hwnd, HDC hdc, PAINTSTRUCT ps, RECT <span class="built_in">rect</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">LRESULT CALLBACK <span class="title">WndProc</span><span class="params">(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HDC hdc;</span><br><span class="line">	PAINTSTRUCT ps;</span><br><span class="line">	RECT <span class="built_in">rect</span>;</span><br><span class="line">	<span class="keyword">switch</span> (message)</span><br><span class="line">	&#123;</span><br><span class="line">	<span class="keyword">case</span> WM_PAINT:</span><br><span class="line">		hdc = BeginPaint(hwnd, &amp;ps);</span><br><span class="line">		GetClientRect(hwnd, &amp;<span class="built_in">rect</span>);</span><br><span class="line">		Paint_Triangle(hwnd, hdc, ps, <span class="built_in">rect</span>);</span><br><span class="line">                DeleteDC(hdc);</span><br><span class="line">		EndPaint(hwnd, &amp;ps);</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> WM_DESTROY:</span><br><span class="line">		PostQuitMessage(<span class="number">0</span>);</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">default</span>:									</span><br><span class="line">		<span class="keyword">return</span> DefWindowProc(hwnd, message, wparam, lparam);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Paint_Triangle</span><span class="params">(HWND hwnd, HDC hdc, PAINTSTRUCT ps, RECT <span class="built_in">rect</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//BITMAPINFO</span></span><br><span class="line">	BITMAPINFO bmpinfo;</span><br><span class="line">	bmpinfo.bmiHeader.biSize = <span class="keyword">sizeof</span>(BITMAPINFOHEADER);</span><br><span class="line">	bmpinfo.bmiHeader.biWidth = <span class="number">800</span>;</span><br><span class="line">        <span class="comment">//这里要注意窗口坐标系的Y坐标朝下，bitmap的Y坐标朝上，所以要加个负号</span></span><br><span class="line">	bmpinfo.bmiHeader.biHeight = <span class="number">-600</span>;</span><br><span class="line">	bmpinfo.bmiHeader.biPlanes = <span class="number">1</span>;</span><br><span class="line">	bmpinfo.bmiHeader.biBitCount = <span class="number">24</span>;  <span class="comment">//颜色位数：3bytes(RGB) * 8 bits/byte = 24 bits</span></span><br><span class="line">	bmpinfo.bmiHeader.biCompression = BI_RGB;</span><br><span class="line"></span><br><span class="line">	BYTE* pData = (BYTE*)<span class="built_in">malloc</span>(<span class="number">800</span> * <span class="number">600</span> * <span class="number">3</span>);</span><br><span class="line">	<span class="built_in">memset</span>(pData, <span class="number">0</span>, <span class="keyword">sizeof</span>(BYTE) * (<span class="number">800</span> * <span class="number">600</span> * <span class="number">3</span>));</span><br><span class="line">	HBITMAP hbitmap = CreateDIBSection(hdc, &amp;bmpinfo, DIB_PAL_COLORS, (<span class="keyword">void</span>**)&amp;pData, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> x1 = <span class="number">200</span>, x2 = <span class="number">100</span>, x3 = <span class="number">300</span>, y1 = <span class="number">0</span>, y2 = <span class="number">300</span>, y3 = <span class="number">200</span>;  <span class="comment">//三角形三个顶点坐标</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> p1Top2_x = x2 - x1, p1Top2_y = y2 - y1;   <span class="comment">//向量P1P2</span></span><br><span class="line">	<span class="keyword">int</span> p2Top3_x = x3 - x2, p2Top3_y = y3 - y2;   <span class="comment">//P2P3</span></span><br><span class="line">	<span class="keyword">int</span> p3Top1_x = x1 - x3, p3Top1_y = y1 - y3;   <span class="comment">//P3P1</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; <span class="number">600</span>; ++y)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="number">800</span>; ++x)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//构建向量P1P, P2P, P3P</span></span><br><span class="line">			<span class="keyword">int</span> p1Top_x = x - x1, p1Top_y = y - y1;</span><br><span class="line">			<span class="keyword">int</span> p2Top_x = x - x2, p2Top_y = y - y2;</span><br><span class="line">			<span class="keyword">int</span> p3Top_x = x - x3, p3Top_y = y - y3;</span><br><span class="line">			<span class="comment">//作叉乘</span></span><br><span class="line">			<span class="keyword">int</span> CrossProduct_1 = p1Top2_x * p1Top_y - p1Top_x * p1Top2_y;</span><br><span class="line">			<span class="keyword">int</span> CrossProduct_2 = p2Top3_x * p2Top_y - p2Top_x * p2Top3_y;</span><br><span class="line">			<span class="keyword">int</span> CrossProduct_3 = p3Top1_x * p3Top_y - p3Top_x * p3Top1_y;</span><br><span class="line">			<span class="keyword">if</span> (CrossProduct_1 &lt; <span class="number">0</span> &amp;&amp; CrossProduct_2 &lt; <span class="number">0</span> &amp;&amp; CrossProduct_3 &lt; <span class="number">0</span>)  <span class="comment">//在内部</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">//顺序是BGR而不是RGB</span></span><br><span class="line">				pData[y * <span class="number">800</span> * <span class="number">3</span> + x * <span class="number">3</span>] = <span class="number">255</span>;</span><br><span class="line">				pData[y * <span class="number">800</span> * <span class="number">3</span> + x * <span class="number">3</span> + <span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">				pData[y * <span class="number">800</span> * <span class="number">3</span> + x * <span class="number">3</span> + <span class="number">2</span>] = <span class="number">0</span>;</span><br><span class="line">                                <span class="comment">//不再使用SetPixel</span></span><br><span class="line">				<span class="comment">//SetPixel(hdc, x, y, RGB(0, 255, 0));</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">        <span class="comment">//创建兼容DC</span></span><br><span class="line">	HDC mdc = CreateCompatibleDC(hdc);</span><br><span class="line">	SelectObject(mdc, hbitmap);</span><br><span class="line">        <span class="comment">//贴图</span></span><br><span class="line">	BitBlt(hdc, <span class="number">0</span>, <span class="number">0</span>, <span class="number">800</span>, <span class="number">600</span>, mdc, <span class="number">0</span>, <span class="number">0</span>, SRCCOPY);</span><br><span class="line">	DeleteDC(mdc);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样子我们就解决了绘图效率的问题</p>
+<p><img src="https://pic4.zhimg.com/v2-64b4c4f3e14e96ac08690d2d1d267031.jpg" alt="改进方法后的快速绘图示例"></p>
+<p>以上。</p>
+<p>下篇博文我们就可以正式进入光栅化渲染器的编写工作了。</p>
+<h1 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h1><p>[1] <a href="http://c.biancheng.net/cpp/html/2845.html">C语言中文网：Windows编程</a></p>
+<p>[2] <a href="https://book.douban.com/subject/25756435/">《逐梦之旅：Windows游戏编程之从零开始》</a></p>
+<p>[3] <a href="https://www.zhihu.com/question/48912745/answer/113372848">哪位大神可以解释一下C#中GDI的Setpixel方法耗时的原因呢？–叛逆者的回答</a></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" rel="tag">计算机图形学</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/04/30/%E4%BA%94%E6%9C%88%E4%BB%BD%E8%AE%A1%E5%88%92/">
+                <span class="level-item">五月份计划</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: 'nQ7Hv1DkwMTFL8o3Pa8t7oqW-gzGzoHsz',
+        app_key: 'WYfnbgKAIjdHztIi93RYV267',
+        placeholder: 'Say something...'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="jckcoenf">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        jckcoenf
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        人类的悲欢并不相通
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>广东.中国</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            14
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            4
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            4
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/jckcoenf" target="_blank" rel="noopener">
+                关注我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/jckcoenf">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="从零开始的光栅化渲染器（零）：启程" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 从零开始的光栅化渲染器（零）：启程&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/jckconef">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://yoursite.com',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":200,"height":400},"mobile":{"show":true}});</script></body>
+</html>
